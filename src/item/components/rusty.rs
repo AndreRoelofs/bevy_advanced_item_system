@@ -1,6 +1,6 @@
-use bevy::prelude::*;
+use bevy::{ecs::component::ComponentIdFor, prelude::*};
 
-use crate::{Cooldown, EquippedBy, Item, OnGround, StoredIn, View};
+use crate::{Cooldown, EquippedBy, Item, OnGround, StatOp, StoredIn, View};
 
 const RUST_AFTER_SECS: f32 = 5.0;
 const RUST_COOLDOWN_MULT: f32 = 2.0;
@@ -75,24 +75,28 @@ fn rust_on_stored(
     }
 }
 
-fn attach_rust_modifier(add: On<Add<Rusty>>, items: Query<(), With<Item>>, mut commands: Commands) {
+fn attach_rust_modifier(
+    add: On<Add<Rusty>>,
+    mut items: Query<&mut Cooldown, With<Item>>,
+    rusty_id: ComponentIdFor<Rusty>,
+) {
     let model = add.event().entity;
-    if items.get(model).is_err() {
+    let Ok(mut cooldown) = items.get_mut(model) else {
         return;
-    }
-    // TODO: Somehow pass the stat modifier to Gun's cooldown
+    };
+    cooldown.add_contribution(*rusty_id, StatOp::Mult(RUST_COOLDOWN_MULT));
 }
 
 fn detach_rust_modifier(
     remove: On<Remove<Rusty>>,
-    items: Query<(), With<Item>>,
-    mut commands: Commands,
+    mut items: Query<&mut Cooldown, With<Item>>,
+    rusty_id: ComponentIdFor<Rusty>,
 ) {
     let model = remove.event().entity;
-    if items.get(model).is_err() {
+    let Ok(mut cooldown) = items.get_mut(model) else {
         return;
-    }
-    // TODO: Somehow remove the stat modifier from Gun's cooldown
+    };
+    cooldown.remove_contribution(*rusty_id);
 }
 
 #[derive(Component, Clone, Default)]
