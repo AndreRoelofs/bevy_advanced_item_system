@@ -68,4 +68,10 @@ fn spawn_guns(mut commands: Commands) {
         OnGround
         Transform { translation: Vec3::new(0.0, PLATFORM_TOP_Y + 0.075, -3.0) }
     });
+
+    commands.queue_spawn_scene(bsn! {
+        @Rifle
+        OnGround
+        Transform { translation: Vec3::new(3.0, PLATFORM_TOP_Y + 0.075, -6.5) }
+    });
 }
