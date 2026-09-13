@@ -29,7 +29,7 @@ impl Magnum {
                 footprint: {ItemFootprint(UVec2 { x: 4, y: 8 })} // BFG of the long variety
             }
             Shootable { magazine_size: 6 }
-            Cooldown(0.5)
+            Cooldown::new(0.5)
             Ammo(12) // 2 Magazines
             Visibility
         }

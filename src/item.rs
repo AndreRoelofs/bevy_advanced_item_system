@@ -30,6 +30,12 @@ impl Plugin for ItemPlugin {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum StatOp {
+    Flat(f32),
+    Mult(f32),
+}
+
 #[derive(Component, Reflect, Default, Clone)]
 #[reflect(Component)]
 pub struct OnGround;

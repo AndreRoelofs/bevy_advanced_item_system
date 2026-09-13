@@ -30,7 +30,7 @@ impl Rifle {
             }
             Shootable { magazine_size: 30 }
             Burst { shots: 3, interval: 0.1 }
-            Cooldown(1.0)
+            Cooldown::new(1.0)
             Ammo(30)
             Visibility
         }

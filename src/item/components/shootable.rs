@@ -56,7 +56,7 @@ pub fn try_fire(
     if ammo.0 == 0 {
         return FireOutcome::Empty;
     }
-    let cooling = last_shot.is_some_and(|last| now_secs - last.0 < cooldown.0);
+    let cooling = last_shot.is_some_and(|last| now_secs - last.0 < cooldown.effective());
     if cooling {
         return FireOutcome::Cooldown;
     }
