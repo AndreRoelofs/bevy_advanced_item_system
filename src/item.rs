@@ -27,13 +27,25 @@ impl Plugin for ItemPlugin {
 #[reflect(Component)]
 pub struct OnGround;
 
+impl OnGround {
+    pub const KEY: &str = "core::item_state::on_ground";
+}
+
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 pub struct EquippedBy;
 
+impl EquippedBy {
+    pub const KEY: &str = "core::item_state::equipped_by";
+}
+
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 pub struct StoredIn;
+
+impl StoredIn {
+    pub const KEY: &str = "core::item_state::stored_in";
+}
 
 #[derive(Component, Clone, Default)]
 pub struct Item {
