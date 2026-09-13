@@ -1,0 +1,21 @@
+[alias]
+xtask = "run --quiet --package xtask --"
+
+[build]
+rustflags = ["--cfg", "tokio_unstable"]
+target-dir = "target"
+
+[unstable]
+codegen-backend = true
+
+[profile.dev.package."*"]
+codegen-backend = "llvm"
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = [
+  "--cfg", "tokio_unstable",
+  "-Zshare-generics=y",
+  "-Clink-arg=--ld-path=wild",
+  "-Ctarget-cpu=native",
+]

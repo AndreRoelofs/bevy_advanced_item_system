@@ -1,0 +1,4 @@
+# Require `bevy_ecs::children!` to use `[]` braces, instead of `()` or `{}`.
+standard-macro-braces = [{ name = "children", brace = "[" }]
+# Types can get complex in Bevy
+type-complexity-threshold = 400

@@ -1,0 +1,31 @@
+default_install_hook_types: [pre-commit, prepare-commit-msg]
+
+repos:
+  - repo: local
+    hooks:
+      - id: rustfmt
+        name: rustfmt (staged files)
+        entry: rustfmt --edition 2024 --check
+        language: system
+        types: [rust]
+
+      - id: clippy
+        name: clippy
+        entry: env CLIPPY_ONLY=1 scripts/clippy.sh
+        language: system
+        files: '(\.rs$|^Cargo\.(toml|lock)$)'
+        pass_filenames: false
+        require_serial: true
+
+      - id: typos
+        name: typos (staged files)
+        entry: typos --config typos.toml --force-exclude
+        language: system
+
+      - id: koji
+        name: koji (compose commit message)
+        entry: scripts/koji-hook.sh
+        language: system
+        stages: [prepare-commit-msg]
+        always_run: true
+        pass_filenames: false

@@ -1,0 +1,49 @@
+[package]
+name = "bevy_advanced_item_system"
+version = "0.1.0"
+edition = "2024"
+authors = ["Andre Roelofs"]
+license = "MIT OR Apache-2.0"
+
+[workspace]
+
+[workspace.dependencies]
+# The branch is mutually-exclusive-components, pinned at Bevy between 0.19.1 and 0.20.0
+bevy = { git = "https://github.com/eugineerd/bevy.git", rev = "b8d0da3"}
+
+[dependencies]
+bevy = { workspace = true }
+
+[features]
+default = ["dev"]
+# `bevy/debug` makes `DebugName` store real component/type names instead of the
+# "<Enable the debug feature to see the name>" placeholder — needed for the
+# on-screen component list. Only enabled in dev builds.
+dev = ["bevy/dynamic_linking", "bevy/debug"]
+profile = []
+
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+overflow-checks = false
+incremental = true
+codegen-units = 256
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[profile.dist]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+strip = "debuginfo"
