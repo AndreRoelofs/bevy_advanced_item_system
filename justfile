@@ -9,7 +9,7 @@ init:
     prek install
 
 run *args:
-    cargo run {{ args }}
+    cargo run --features dev {{ args }}
 
 commit:
     koji
