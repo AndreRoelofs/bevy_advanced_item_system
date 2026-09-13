@@ -23,7 +23,33 @@ impl Cooldown {
         }
     }
 
+    pub fn add_contribution(&mut self, component_id: ComponentId, op: StatOp) {
+        if let Some((_, contribution)) = self
+            .contributions
+            .iter_mut()
+            .find(|(id, _)| *id == component_id)
+        {
+            *contribution = op;
+        } else {
+            self.contributions.push((component_id, op));
+        }
+    }
+
+    pub fn remove_contribution(&mut self, component_id: ComponentId) {
+        self.contributions.retain(|(id, _)| *id != component_id);
+    }
+
     pub fn effective(&self) -> f32 {
-        0.0
+        let mut flat = 0.0;
+        let mut mult = 1.0;
+
+        for (_, op) in &self.contributions {
+            match op {
+                StatOp::Flat(value) => flat += value,
+                StatOp::Mult(value) => mult *= value,
+            }
+        }
+
+        (self.base + flat) * mult
     }
 }
