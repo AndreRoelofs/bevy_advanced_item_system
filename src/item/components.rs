@@ -1,8 +1,10 @@
 use bevy::prelude::*;
 
+mod cooldown;
 mod rusty;
 mod shootable;
 
+pub use cooldown::*;
 pub use rusty::*;
 pub use shootable::*;
 
@@ -13,7 +15,3 @@ impl Plugin for ItemComponentsPlugin {
         app.add_plugins((ShootablePlugin, RustyPlugin));
     }
 }
-
-// TODO: maybe move somewhere else
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct Cooldown(pub f32);

@@ -28,8 +28,9 @@ impl Rifle {
                 label: {ItemLabel("Assault Rifle".to_string())},
                 footprint: {ItemFootprint(UVec2 { x: 8, y: 4 })} // BFG of the long variety
             }
-            Shootable { cooldown: {Cooldown(1.0)}, magazine_size: 30 }
-            Burst { shots: 3, interval: {Cooldown(0.1)} }
+            Shootable { magazine_size: 30 }
+            Burst { shots: 3, interval: 0.1 }
+            Cooldown(1.0)
             Ammo(30)
             Visibility
         }

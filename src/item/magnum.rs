@@ -28,7 +28,8 @@ impl Magnum {
                 label: {ItemLabel("Magnum".to_string())},
                 footprint: {ItemFootprint(UVec2 { x: 4, y: 8 })} // BFG of the long variety
             }
-            Shootable { cooldown: {Cooldown(0.5)}, magazine_size: 6 }
+            Shootable { magazine_size: 6 }
+            Cooldown(0.5)
             Ammo(12) // 2 Magazines
             Visibility
         }

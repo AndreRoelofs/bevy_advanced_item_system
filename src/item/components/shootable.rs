@@ -4,14 +4,13 @@ use crate::{Cooldown, EquippedBy};
 
 #[derive(Component, Clone, Default)]
 pub struct Shootable {
-    pub cooldown: Cooldown,
     pub magazine_size: u32,
 }
 
 #[derive(Component, Clone, Default)]
 pub struct Burst {
     pub shots: u32,
-    pub interval: Cooldown,
+    pub interval: f32,
 }
 
 #[derive(Component, Clone, Default)]
