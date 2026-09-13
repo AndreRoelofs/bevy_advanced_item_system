@@ -29,14 +29,6 @@ impl ItemViewRegistry {
     }
 }
 
-pub fn build_chrome_patch(
-    asset_server: &AssetServer,
-    patches: &mut Assets<ScenePatch>,
-    scene: impl Scene,
-) -> Handle<ScenePatch> {
-    let mut patch = ScenePatch::load(asset_server, scene);
-    patch
-        .resolve(asset_server, patches)
-        .expect("chrome scenes have no asset-path dependencies");
-    patches.add(patch)
+pub fn build_chrome_patch(asset_server: &AssetServer, scene: impl Scene) -> Handle<ScenePatch> {
+    asset_server.add(ScenePatch::load(asset_server, scene))
 }

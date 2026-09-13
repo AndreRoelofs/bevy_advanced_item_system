@@ -1,4 +1,4 @@
-use bevy::{platform::collections::HashMap, prelude::*, scene::ScenePatch};
+use bevy::{platform::collections::HashMap, prelude::*};
 
 use crate::{
     Ammo, Cooldown, EquippedBy, Item, ItemFootprint, ItemKey, ItemLabel, ItemViewDefinition,
@@ -44,7 +44,6 @@ fn register_magnum_view(
     asset_server: Res<AssetServer>,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    mut patches: ResMut<Assets<ScenePatch>>,
     mut views: ResMut<ItemViewRegistry>,
 ) {
     // Grounded and hand meshes are different to emphasize how
@@ -57,7 +56,6 @@ fn register_magnum_view(
     let ground_material = material.clone();
     let ground = build_chrome_patch(
         &asset_server,
-        &mut patches,
         bsn! {
             Mesh3d(ground_mesh)
             MeshMaterial3d<StandardMaterial>(ground_material)
@@ -66,7 +64,6 @@ fn register_magnum_view(
 
     let equipped = build_chrome_patch(
         &asset_server,
-        &mut patches,
         bsn! {
             Mesh3d(hand_mesh)
             MeshMaterial3d<StandardMaterial>(material)
@@ -79,7 +76,6 @@ fn register_magnum_view(
 
     let stored = build_chrome_patch(
         &asset_server,
-        &mut patches,
         bsn! {
             Node { border: icon_border }
             BackgroundColor(icon_color)
