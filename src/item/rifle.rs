@@ -94,9 +94,9 @@ fn register_rifle_view(
         ItemKey(RIFLE_KEY.to_string()),
         ItemViewDefinition {
             chrome: HashMap::from([
-                (OnGround::KEY.to_string(), ground),
-                (EquippedBy::KEY.to_string(), equipped),
-                (StoredIn::KEY.to_string(), stored),
+                (OnGround::type_path(), ground),
+                (EquippedBy::type_path(), equipped),
+                (StoredIn::type_path(), stored),
             ]),
         },
     );

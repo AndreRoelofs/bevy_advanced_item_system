@@ -15,8 +15,8 @@ impl Plugin for ItemViewPlugin {
 
 #[derive(Default)]
 pub struct ItemViewDefinition {
-    // TODO: The string should be something else I think
-    pub chrome: HashMap<String, Handle<ScenePatch>>,
+    /// Scene patches keyed by item state reflection string.
+    pub chrome: HashMap<&'static str, Handle<ScenePatch>>,
 }
 
 #[derive(Resource, Default)]
@@ -50,7 +50,7 @@ fn change_view_on_ground(
 
     let Some(ground) = views
         .get(&item.key)
-        .and_then(|definition| definition.chrome.get(OnGround::KEY))
+        .and_then(|definition| definition.chrome.get(OnGround::type_path()))
     else {
         return;
     };
@@ -81,7 +81,7 @@ fn change_view_on_equipped(
 
     let Some(ground) = views
         .get(&item.key)
-        .and_then(|definition| definition.chrome.get(EquippedBy::KEY))
+        .and_then(|definition| definition.chrome.get(EquippedBy::type_path()))
     else {
         return;
     };
@@ -112,7 +112,7 @@ fn change_view_on_stored(
 
     let Some(ground) = views
         .get(&item.key)
-        .and_then(|definition| definition.chrome.get(StoredIn::KEY))
+        .and_then(|definition| definition.chrome.get(StoredIn::type_path()))
     else {
         return;
     };
