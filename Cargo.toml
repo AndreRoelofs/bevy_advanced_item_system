@@ -9,18 +9,12 @@ license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
 # The branch is mutually-exclusive-components, pinned at Bevy between 0.19.1 and 0.20.0
-bevy = { git = "https://github.com/eugineerd/bevy.git", rev = "b8d0da3"}
+bevy = { git = "https://github.com/eugineerd/bevy.git", rev = "b8d0da3", features = ["dynamic_linking", "debug"] }
+smallvec = "1.16.1"
 
 [dependencies]
 bevy = { workspace = true }
-
-[features]
-default = ["dev"]
-# `bevy/debug` makes `DebugName` store real component/type names instead of the
-# "<Enable the debug feature to see the name>" placeholder — needed for the
-# on-screen component list. Only enabled in dev builds.
-dev = ["bevy/dynamic_linking", "bevy/debug"]
-profile = []
+smallvec = { workspace = true }
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]

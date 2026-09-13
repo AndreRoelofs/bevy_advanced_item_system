@@ -468,6 +468,7 @@ name = "bevy_advanced_item_system"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "smallvec",
 ]
 
 [[package]]
