@@ -5,7 +5,9 @@ use crate::ItemKey;
 pub struct ItemViewPlugin;
 
 impl Plugin for ItemViewPlugin {
-    fn build(&self, _app: &mut App) {}
+    fn build(&self, app: &mut App) {
+        app.init_resource::<ItemViewRegistry>();
+    }
 }
 
 #[derive(Default)]
@@ -25,4 +27,16 @@ impl ItemViewRegistry {
     pub fn register(&mut self, key: ItemKey, view: ItemViewDefinition) {
         self.0.insert(key, view);
     }
+}
+
+pub fn build_chrome_patch(
+    asset_server: &AssetServer,
+    patches: &mut Assets<ScenePatch>,
+    scene: impl Scene,
+) -> Handle<ScenePatch> {
+    let mut patch = ScenePatch::load(asset_server, scene);
+    patch
+        .resolve(asset_server, patches)
+        .expect("chrome scenes have no asset-path dependencies");
+    patches.add(patch)
 }
