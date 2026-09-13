@@ -2,15 +2,15 @@ use bevy::prelude::*;
 
 mod camera;
 mod item;
-mod views;
+mod view;
 
 pub use camera::*;
 pub use item::*;
-pub use views::*;
+pub use view::*;
 
 pub fn run() {
     App::new()
-        .add_plugins((DefaultPlugins, CameraPlugin, ViewsPlugin, ItemPlugin))
+        .add_plugins((DefaultPlugins, CameraPlugin, ViewPlugin, ItemPlugin))
         .add_systems(Startup, setup)
         .run();
 }

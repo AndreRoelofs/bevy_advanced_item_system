@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-pub struct ViewsPlugin;
+pub struct ViewPlugin;
 
-impl Plugin for ViewsPlugin {
+impl Plugin for ViewPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<View>().register_type::<ViewOf>();
     }

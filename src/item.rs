@@ -2,9 +2,11 @@ use bevy::prelude::*;
 
 mod components;
 mod magnum;
+mod view;
 
 pub use components::*;
 pub use magnum::*;
+pub use view::*;
 
 pub struct ItemPlugin;
 
@@ -17,7 +19,7 @@ impl Plugin for ItemPlugin {
         app.world_mut()
             .register_mutually_exclusive_components::<(OnGround, EquippedBy, StoredIn)>();
 
-        app.add_plugins((ItemComponentsPlugin, MagnumPlugin));
+        app.add_plugins((ItemComponentsPlugin, MagnumPlugin, ItemViewPlugin));
     }
 }
 
