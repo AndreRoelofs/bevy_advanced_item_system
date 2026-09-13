@@ -11,7 +11,7 @@ pub use view::*;
 pub fn run() {
     App::new()
         .add_plugins((DefaultPlugins, CameraPlugin, ViewPlugin, ItemPlugin))
-        .add_systems(Startup, setup)
+        .add_systems(Startup, (setup, spawn_guns))
         .run();
 }
 
@@ -60,4 +60,12 @@ fn setup(
             ));
             parent.spawn((Transform::from_xyz(-0.3, -0.3, -0.6), Visibility::default()));
         });
+}
+
+fn spawn_guns(mut commands: Commands) {
+    commands.queue_spawn_scene(bsn! {
+        @Magnum
+        OnGround
+        Transform { translation: Vec3::new(0.0, PLATFORM_TOP_Y + 0.075, -3.0) }
+    });
 }

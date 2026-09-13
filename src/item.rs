@@ -23,7 +23,7 @@ impl Plugin for ItemPlugin {
     }
 }
 
-#[derive(Component, Reflect)]
+#[derive(Component, Reflect, Default, Clone)]
 #[reflect(Component)]
 pub struct OnGround;
 
