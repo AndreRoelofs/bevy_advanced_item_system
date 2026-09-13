@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
-pub struct ItemViewsPlugin;
+pub struct RustyPlugin;
 
-impl Plugin for ItemViewsPlugin {
+impl Plugin for RustyPlugin {
     fn build(&self, _app: &mut App) {}
 }
