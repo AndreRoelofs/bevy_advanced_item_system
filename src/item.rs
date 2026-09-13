@@ -32,3 +32,15 @@ pub struct EquippedBy;
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 pub struct StoredIn;
+
+#[derive(Clone, Default, PartialEq, Eq, Hash, Debug)]
+pub struct ItemKey(pub String);
+
+#[derive(Clone, Default, PartialEq, Eq, Hash, Debug)]
+pub struct ItemLabel(pub String);
+
+#[derive(Component, Clone, Default)]
+pub struct Item {
+    pub key: ItemKey,
+    pub label: ItemLabel,
+}
