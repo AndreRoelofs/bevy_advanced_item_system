@@ -33,14 +33,24 @@ pub struct EquippedBy;
 #[reflect(Component)]
 pub struct StoredIn;
 
+#[derive(Component, Clone, Default)]
+pub struct Item {
+    pub key: ItemKey,
+    pub label: ItemLabel,
+    pub footprint: ItemFootprint,
+}
+
 #[derive(Clone, Default, PartialEq, Eq, Hash, Debug)]
 pub struct ItemKey(pub String);
 
 #[derive(Clone, Default, PartialEq, Eq, Hash, Debug)]
 pub struct ItemLabel(pub String);
 
-#[derive(Component, Clone, Default)]
-pub struct Item {
-    pub key: ItemKey,
-    pub label: ItemLabel,
+#[derive(Clone, PartialEq, Copy, Eq, Hash, Debug)]
+pub struct ItemFootprint(pub UVec2);
+
+impl Default for ItemFootprint {
+    fn default() -> Self {
+        Self(UVec2::ONE)
+    }
 }
