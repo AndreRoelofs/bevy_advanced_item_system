@@ -46,7 +46,7 @@ pub struct EquippedBy;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
-pub struct StoredIn;
+pub struct StoredIn(pub Entity);
 
 #[derive(Component, Clone, Default)]
 pub struct Item {

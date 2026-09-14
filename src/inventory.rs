@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 use crate::{Item, OnGround, Player, StoredIn};
 
+const PICKUP_RANGE: f32 = 2.0;
+
 pub struct InventoryPlugin;
 
 impl Plugin for InventoryPlugin {
@@ -31,11 +33,21 @@ impl Inventory {
 }
 
 fn pick_up_close(
-    _inventory: Single<&Inventory, With<Player>>,
-    items: Query<Entity, (With<Item>, With<OnGround>)>,
+    mut player: Query<(Entity, &mut Inventory, &Transform), With<Player>>,
+    items: Query<(Entity, &Transform), (With<Item>, With<OnGround>)>,
     mut commands: Commands,
 ) {
-    for item in items {
-        commands.entity(item).insert(StoredIn);
+    let Ok((entity, mut inventory, pos)) = player.single_mut() else {
+        return;
+    };
+
+    for (item, item_pos) in items {
+        if pos
+            .translation
+            .abs_diff_eq(item_pos.translation, PICKUP_RANGE)
+        {
+            inventory.items.push(item);
+            commands.entity(item).insert(StoredIn(entity));
+        }
     }
 }
