@@ -6,7 +6,7 @@ use crate::StatOp;
 pub struct CooldownPlugin;
 
 impl Plugin for CooldownPlugin {
-    fn build(&self, app: &mut App) {}
+    fn build(&self, _app: &mut App) {}
 }
 
 #[derive(Component, Clone, Debug, Default, PartialEq)]

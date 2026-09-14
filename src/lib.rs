@@ -1,16 +1,24 @@
 use bevy::prelude::*;
 
 mod camera;
+mod inventory;
 mod item;
 mod view;
 
 pub use camera::*;
+pub use inventory::*;
 pub use item::*;
 pub use view::*;
 
 pub fn run() {
     App::new()
-        .add_plugins((DefaultPlugins, CameraPlugin, ViewPlugin, ItemPlugin))
+        .add_plugins((
+            DefaultPlugins,
+            CameraPlugin,
+            ViewPlugin,
+            ItemPlugin,
+            InventoryPlugin,
+        ))
         .add_systems(Startup, (setup, spawn_guns))
         .run();
 }
@@ -43,6 +51,7 @@ fn setup(
             Camera3d::default(),
             Transform::from_xyz(0.0, PLATFORM_TOP_Y + EYE_HEIGHT, 0.0),
             Player::default(),
+            Inventory::default(),
             AmbientLight {
                 brightness: 200.0,
                 ..default()
