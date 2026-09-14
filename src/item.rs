@@ -38,11 +38,12 @@ pub enum StatOp {
 
 #[derive(Component, Reflect, Default, Clone)]
 #[reflect(Component)]
+#[require(Transform)]
 pub struct OnGround;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
-pub struct EquippedBy;
+pub struct EquippedBy(pub Entity);
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
