@@ -34,7 +34,7 @@ public:
 
 When a gun is on the ground and ready to be picked up, it is displayed in the world using the properties defined in `UInventoryFragment_PickupIcon` as shown in Figure 1.
 
-![Weapon pickup showing the gun mesh and the colored pad beneath it.](assets/pick-up.png)
+![Weapon pickup showing the gun mesh and the colored pad beneath it.](https://media.githubusercontent.com/media/AndreRoelofs/bevy_advanced_item_system/refs/heads/main/website/src/assets/pick-up.png)
 
 *Figure 1: Weapon pickup showing the gun mesh and the colored pad beneath it.*
 

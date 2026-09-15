@@ -1,0 +1,21 @@
+/* Local overrides; keep the vendored Catppuccin stylesheet unchanged. */
+.content :not(pre) > code {
+    color: var(--blockquote-important-color);
+    background-color: var(--theme-hover);
+    border: 1px solid var(--theme-popup-border);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+    font-weight: 600;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+/* Keep linked identifiers recognizable as links. */
+.content a > code {
+    color: var(--links);
+}
+
+/* Heading anchors are navigation aids, not ordinary text links. */
+.content .header > code {
+    color: inherit;
+}

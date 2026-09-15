@@ -7,7 +7,7 @@ src = "src"
 [output.html]
 default-theme = "frappe"
 preferred-dark-theme = "frappe"
-additional-css = ["theme/catppuccin.css"]
+additional-css = ["theme/catppuccin.css", "theme/inline-code.css"]
 site-url = "/bevy_advanced_item_system/"
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
 

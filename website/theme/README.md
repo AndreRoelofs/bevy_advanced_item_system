@@ -7,6 +7,8 @@ See `LICENSE.catppuccin` for the upstream license.
 
 - `catppuccin.css` is compiled from upstream `src/catppuccin.scss` with its
   locked dependencies. It includes all four flavors and syntax highlighting.
+- `inline-code.css` adds local inline-code emphasis using each flavor's palette,
+  without changing fenced code blocks or the vendored stylesheet.
 - `index.hbs` is the upstream example template for mdBook 0.5.4, with the theme
   button IDs prefixed by `mdbook-theme-` as required by that mdBook version.
 - `../book.toml` selects Frappé as the default for both light and dark mode.
