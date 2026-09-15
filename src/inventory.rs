@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{Item, OnGround, Player, StoredIn};
+use crate::{EquippedBy, Equips, Item, OnGround, Player, StoredIn};
 
 const PICKUP_RANGE: f32 = 2.0;
 
@@ -41,12 +41,12 @@ impl OwnsInventory {
 }
 
 fn pick_up_close(
-    player: Query<(&Transform, &Children), With<Player>>,
+    players: Query<(Entity, Option<&Equips>, &Transform, &Children), With<Player>>,
     inventories: Query<Entity, With<Inventory>>,
     items: Query<(Entity, &Transform), (With<Item>, With<OnGround>)>,
     mut commands: Commands,
 ) {
-    let Ok((pos, children)) = player.single() else {
+    let Ok((player, equips, pos, children)) = players.single() else {
         return;
     };
 
@@ -54,12 +54,21 @@ fn pick_up_close(
         return;
     };
 
+    // If the player has nothing equipped then we
+    // give them the first gun they walk over.
+    let mut has_equip = equips.is_some();
+
     for (item, item_pos) in items {
         if pos
             .translation
             .abs_diff_eq(item_pos.translation, PICKUP_RANGE)
         {
-            commands.entity(item).insert(StoredIn(inventory));
+            if has_equip == false {
+                commands.entity(item).insert(EquippedBy(player));
+                has_equip = true;
+            } else {
+                commands.entity(item).insert(StoredIn(inventory));
+            }
         }
     }
 }
