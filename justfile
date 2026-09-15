@@ -4,7 +4,7 @@ _default:
 init:
     cargo install --locked prek
     cargo install --locked koji
-    cargo install --locked mdbook
+    cargo install --locked mdbook --version 0.5.4
     cargo install --locked mdbook-mermaid
     prek install
 
@@ -38,8 +38,14 @@ docs-build:
     mdbook build website
 
 docs-check: docs-build
+    #!/usr/bin/env bash
+    set -euo pipefail
     typos website/src
-    lychee --offline --no-ignore --include-fragments 'docs/book/**/*.html'
+    # Mirror the Pages URL prefix so root-relative links resolve locally.
+    site_root="$(mktemp -d)"
+    trap 'rm -rf "$site_root"' EXIT
+    ln -s "$PWD/website/book" "$site_root/bevy_advanced_item_system"
+    lychee --offline --no-ignore --include-fragments --root-dir "$site_root" --index-files index.html 'website/book/**/*.html'
 
 docs-api:
     cargo doc --workspace --no-deps --document-private-items --open

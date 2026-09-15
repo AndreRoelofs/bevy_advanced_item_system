@@ -1,20 +1,6 @@
 # bevy_advanced_item_system
 
-The project's documentation website is managed by [mdBook](https://rust-lang.github.io/mdBook/) in [`website/`](website/). The pages are currently empty placeholders for explaining the project's purpose and usage.
-
-## Documentation
-
-Install mdBook with `cargo install mdbook`, then run these commands from the repository root:
-
-```sh
-# Preview locally with live reload
-mdbook serve website --open
-
-# Build the static website into website/book/
-mdbook build website
-```
-
-Edit the Markdown pages in `website/src/` and update `website/src/SUMMARY.md` when adding pages.
+This project will have an `mdbook` static website explaining what's what. Until then, venture forth at your own risk soldier.
 
 ## Special thanks
 

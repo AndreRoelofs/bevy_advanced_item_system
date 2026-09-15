@@ -3,3 +3,6 @@ title = "Bevy Advanced Item System"
 authors = ["Andre Roelofs"]
 language = "en"
 src = "src"
+
+[output.html]
+site-url = "/bevy_advanced_item_system/"
