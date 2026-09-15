@@ -3,37 +3,19 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 (() => {
-    const darkThemes = ['ayu', 'navy', 'coal'];
-    const lightThemes = ['light', 'rust'];
+    const darkThemes = ['frappe', 'macchiato', 'mocha'];
+    const isDarkTheme = () => darkThemes.some(theme =>
+        document.documentElement.classList.contains(theme)
+    );
+    const initiallyDark = isDarkTheme();
 
-    const classList = document.getElementsByTagName('html')[0].classList;
+    mermaid.initialize({ startOnLoad: true, theme: initiallyDark ? 'dark' : 'default' });
 
-    let lastThemeWasLight = true;
-    for (const cssClass of classList) {
-        if (darkThemes.includes(cssClass)) {
-            lastThemeWasLight = false;
-            break;
+    // Reload after mdBook applies a light/dark change so Mermaid redraws its diagrams.
+    // Observing the applied theme also handles Auto and OS color-scheme changes.
+    new MutationObserver(() => {
+        if (isDarkTheme() !== initiallyDark) {
+            window.location.reload();
         }
-    }
-
-    const theme = lastThemeWasLight ? 'default' : 'dark';
-    mermaid.initialize({ startOnLoad: true, theme });
-
-    // Simplest way to make mermaid re-render the diagrams in the new theme is via refreshing the page
-
-    for (const darkTheme of darkThemes) {
-        document.getElementById('mdbook-theme-' + darkTheme).addEventListener('click', () => {
-            if (lastThemeWasLight) {
-                window.location.reload();
-            }
-        });
-    }
-
-    for (const lightTheme of lightThemes) {
-        document.getElementById('mdbook-theme-' + lightTheme).addEventListener('click', () => {
-            if (!lastThemeWasLight) {
-                window.location.reload();
-            }
-        });
-    }
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 })();

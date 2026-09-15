@@ -5,6 +5,9 @@ language = "en"
 src = "src"
 
 [output.html]
+default-theme = "frappe"
+preferred-dark-theme = "frappe"
+additional-css = ["theme/catppuccin.css"]
 site-url = "/bevy_advanced_item_system/"
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
 
