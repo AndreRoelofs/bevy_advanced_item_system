@@ -9,7 +9,11 @@
     );
     const initiallyDark = isDarkTheme();
 
-    mermaid.initialize({ startOnLoad: true, theme: initiallyDark ? 'dark' : 'default' });
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: initiallyDark ? 'dark' : 'default',
+        fontFamily: '"Geist Mono", ui-monospace, SFMono-Regular, Consolas, "Ubuntu Mono", Menlo, monospace',
+    });
 
     // Reload after mdBook applies a light/dark change so Mermaid redraws its diagrams.
     // Observing the applied theme also handles Auto and OS color-scheme changes.
