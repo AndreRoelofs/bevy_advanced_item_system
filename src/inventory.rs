@@ -9,6 +9,8 @@ pub struct InventoryPlugin;
 impl Plugin for InventoryPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<Inventory>()
+            .register_type::<InventoryOf>()
+            .register_type::<OwnsInventory>()
             .add_systems(Update, pick_up_close);
     }
 }
