@@ -44,7 +44,13 @@ pub struct OnGround;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
+#[relationship(relationship_target = Equips)]
 pub struct EquippedBy(pub Entity);
+
+#[derive(Component, Reflect, Default)]
+#[reflect(Component)]
+#[relationship_target(relationship = EquippedBy)]
+pub struct Equips(Vec<Entity>);
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -57,6 +63,12 @@ pub struct StoredIn(pub Entity);
 pub struct Stores(Vec<Entity>);
 
 impl Stores {
+    pub fn items(&self) -> &Vec<Entity> {
+        &self.0
+    }
+}
+
+impl Equips {
     pub fn items(&self) -> &Vec<Entity> {
         &self.0
     }
