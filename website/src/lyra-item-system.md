@@ -58,3 +58,21 @@ public:
 Every item in the `StatTags` property holds a `FName TagName` and `int32 StackCount`. Rust equivalent of `StatTags` is something like `HashMap<String, i32>`.
 
 For ammunition, the tag reads `TagName = "Lyra.ShooterGame.Weapon.Ammo"` with a count of `6` for our Magnum revolver. `5` after we take a shot and so on. Since the `StatTags` are persistent, that means that shooting a bullet from your revolver, dropping it on the ground and picking it back up again results in you still having `5` ammo instead of the original `6`.
+
+## What inventory contains
+
+An inventory holds the concrete items, not their recipes. If we carry two Magnums, the inventory holds two different `ULyraInventoryItemInstance` objects. Each Magnum has its own ammunition count.
+
+`FLyraInventoryList` holds all the items in the inventory. Each entry contains an item instance and its quantity:
+
+```cpp
+struct FLyraInventoryList : public FFastArraySerializer
+{
+public:
+    // Reference to the player who owns this inventory
+    TObjectPtr<UActorComponent> OwnerComponent;
+    
+    // The items themselves
+    TArray<ULyraInventoryItemInstance> Entries;
+};
+```
