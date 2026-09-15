@@ -1,6 +1,6 @@
-use bevy::{ecs::component::ComponentIdFor, prelude::*};
+use bevy::{ecs::component::ComponentIdFor, prelude::*, scene::Ready};
 
-use crate::{Cooldown, EquippedBy, GroundedSecs, Item, OnGround, StatOp, StoredIn, View};
+use crate::{Cooldown, EquippedBy, GroundedSecs, Item, OnGround, StatOp, StoredIn, View, ViewOf};
 
 const RUST_AFTER_SECS: f32 = 5.0;
 const RUST_COOLDOWN_MULT: f32 = 2.0;
@@ -15,6 +15,7 @@ impl Plugin for RustyPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_rust_material)
             .add_systems(Update, rust_grounded_items)
+            .add_observer(rust_view)
             .add_observer(attach_rust_modifier)
             .add_observer(detach_rust_modifier)
             .add_observer(rust_on_ground)
@@ -108,5 +109,32 @@ fn rust_grounded_items(
         if grounded.0 >= RUST_AFTER_SECS {
             commands.entity(item_e).insert(Rusty);
         }
+    }
+}
+
+fn rust_view(
+    ready: On<Ready>,
+    items: Query<(), (With<Item>, With<Rusty>)>,
+    mut views: Query<(
+        &ViewOf,
+        Option<&mut MeshMaterial3d<StandardMaterial>>,
+        Option<&mut BackgroundColor>,
+    )>,
+    material: Res<RustMaterial>,
+) {
+    let Ok((view_of, mesh_material, background)) = views.get_mut(ready.entity) else {
+        return;
+    };
+
+    if !items.contains(view_of.0) {
+        return;
+    }
+
+    if let Some(mut mesh_material) = mesh_material {
+        mesh_material.0 = material.0.clone();
+    }
+
+    if let Some(mut background) = background {
+        background.0 = RUST_COLOR;
     }
 }
