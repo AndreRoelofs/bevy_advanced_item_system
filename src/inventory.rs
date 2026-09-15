@@ -32,6 +32,24 @@ impl Inventory {
     }
 }
 
+#[derive(Component, Reflect)]
+#[reflect(Component)]
+#[require(Inventory)]
+#[relationship(relationship_target = OwnsInventory)]
+pub struct InventoryOf(pub Entity);
+
+#[derive(Component, Reflect)]
+#[reflect(Component)]
+#[require(Inventory)]
+#[relationship_target(relationship = InventoryOf)]
+pub struct OwnsInventory(Entity);
+
+impl OwnsInventory {
+    pub fn entity(&self) -> Option<Entity> {
+        (self.0 != Entity::PLACEHOLDER).then_some(self.0)
+    }
+}
+
 fn pick_up_close(
     mut player: Query<(Entity, &mut Inventory, &Transform), With<Player>>,
     items: Query<(Entity, &Transform), (With<Item>, With<OnGround>)>,
