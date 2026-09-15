@@ -6,3 +6,7 @@ src = "src"
 
 [output.html]
 site-url = "/bevy_advanced_item_system/"
+additional-js = ["mermaid.min.js", "mermaid-init.js"]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"

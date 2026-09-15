@@ -26,8 +26,10 @@ jobs:
       - name: Install stable Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install mdBook
-        run: cargo +stable install mdbook --locked --version 0.5.4
+      - name: Install mdBook and Mermaid preprocessor
+        run: |
+          cargo +stable install mdbook --locked --version 0.5.4
+          cargo +stable install mdbook-mermaid --locked --version 0.17.1
 
       - name: Build documentation
         run: mdbook build website
