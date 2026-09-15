@@ -71,9 +71,9 @@ fn change_view_on_equipped(
     add: On<Add<EquippedBy>>,
     mut commands: Commands,
     views: Res<ItemViewRegistry>,
-    items: Query<&Item>,
+    items: Query<(&Item, &EquippedBy)>,
 ) {
-    let Ok(item) = items.get(add.entity) else {
+    let Ok((item, equipped_by)) = items.get(add.entity) else {
         return;
     };
 
@@ -88,12 +88,10 @@ fn change_view_on_equipped(
 
     commands.spawn((
         ViewOf(add.entity),
-        // TODO: Make this point to a hand or something, for now this reads super
-        // weird. But it's better than nothing.
-        ChildOf(add.entity),
+        ChildOf(equipped_by.0),
         // Queues the spawning of the view for the next tick
         ScenePatchInstance(ground.clone()),
-        Transform::default(),
+        Transform::from_xyz(0.3, -0.3, -0.9),
         Visibility::default(),
     ));
 }
