@@ -51,7 +51,6 @@ fn setup(
             Camera3d::default(),
             Transform::from_xyz(0.0, PLATFORM_TOP_Y + EYE_HEIGHT, 0.0),
             Player::default(),
-            Inventory::default(),
             AmbientLight {
                 brightness: 200.0,
                 ..default()
@@ -68,6 +67,7 @@ fn setup(
                 Transform::from_xyz(0.3, -0.3, -0.5),
             ));
             parent.spawn((Transform::from_xyz(-0.3, -0.3, -0.6), Visibility::default()));
+            parent.spawn(Inventory::default());
         });
 }
 

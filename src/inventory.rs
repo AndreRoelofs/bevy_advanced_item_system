@@ -20,19 +20,7 @@ pub struct InventorySize(pub UVec2);
 
 #[derive(Component, Reflect, Default)]
 #[reflect(Component)]
-pub struct Inventory {
-    items: Vec<Entity>,
-    // TODO: Maybe we just go with list?
-    /// Controls packing, Tarkov-style
-    cells: Vec<Entity>,
-    size: InventorySize,
-}
-
-impl Inventory {
-    pub fn size(&self) -> InventorySize {
-        self.size.clone()
-    }
-}
+pub struct Inventory;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -53,11 +41,16 @@ impl OwnsInventory {
 }
 
 fn pick_up_close(
-    mut player: Query<(Entity, &mut Inventory, &Transform), With<Player>>,
+    player: Query<(&Transform, &Children), With<Player>>,
+    inventories: Query<Entity, With<Inventory>>,
     items: Query<(Entity, &Transform), (With<Item>, With<OnGround>)>,
     mut commands: Commands,
 ) {
-    let Ok((entity, mut inventory, pos)) = player.single_mut() else {
+    let Ok((pos, children)) = player.single() else {
+        return;
+    };
+
+    let Some(inventory) = inventories.iter_many(children).find_map(Result::ok) else {
         return;
     };
 
@@ -66,8 +59,7 @@ fn pick_up_close(
             .translation
             .abs_diff_eq(item_pos.translation, PICKUP_RANGE)
         {
-            inventory.items.push(item);
-            commands.entity(item).insert(StoredIn(entity));
+            commands.entity(item).insert(StoredIn(inventory));
         }
     }
 }
