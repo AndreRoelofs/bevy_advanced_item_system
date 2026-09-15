@@ -16,7 +16,8 @@ impl Plugin for ItemPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<OnGround>()
             .register_type::<EquippedBy>()
-            .register_type::<StoredIn>();
+            .register_type::<StoredIn>()
+            .register_type::<Stores>();
 
         app.world_mut()
             .register_mutually_exclusive_components::<(OnGround, EquippedBy, StoredIn)>();
@@ -47,7 +48,19 @@ pub struct EquippedBy(pub Entity);
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
+#[relationship(relationship_target = Stores)]
 pub struct StoredIn(pub Entity);
+
+#[derive(Component, Reflect, Default)]
+#[reflect(Component)]
+#[relationship_target(relationship = StoredIn)]
+pub struct Stores(Vec<Entity>);
+
+impl Stores {
+    pub fn items(&self) -> &Vec<Entity> {
+        &self.0
+    }
+}
 
 #[derive(Component, Clone, Default)]
 pub struct Item {
