@@ -20,5 +20,5 @@ devenv.local.yaml
 # direnv
 .direnv
 
-# mdbook build output (just book)
-docs/book
+# mdBook build output
+/website/book/

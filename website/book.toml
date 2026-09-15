@@ -1,0 +1,5 @@
+[book]
+title = "Bevy Advanced Item System"
+authors = ["Andre Roelofs"]
+language = "en"
+src = "src"

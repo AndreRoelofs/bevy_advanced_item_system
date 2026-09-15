@@ -32,13 +32,13 @@ fix:
     typos --write-changes
 
 docs:
-    mdbook serve docs --hostname 127.0.0.1 --port 3000 --open
+    mdbook serve website --hostname 127.0.0.1 --port 3000 --open
 
 docs-build:
-    mdbook build docs
+    mdbook build website
 
 docs-check: docs-build
-    typos docs/src
+    typos website/src
     lychee --offline --no-ignore --include-fragments 'docs/book/**/*.html'
 
 docs-api:
