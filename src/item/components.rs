@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 
 mod cooldown;
+mod grounded_secs;
 mod rusty;
 mod shootable;
-mod grounded_secs;
 
 pub use cooldown::*;
+pub use grounded_secs::*;
 pub use rusty::*;
 pub use shootable::*;
-pub use grounded_secs::*;
 
 pub struct ItemComponentsPlugin;
 

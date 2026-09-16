@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{Item, OnGround};
+use crate::OnGround;
 
 pub struct GroundedSecsPlugin;
 

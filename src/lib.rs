@@ -67,7 +67,7 @@ fn setup(
                 Transform::from_xyz(0.3, -0.3, -0.5),
             ));
             parent.spawn((Transform::from_xyz(-0.3, -0.3, -0.6), Visibility::default()));
-            parent.spawn(Inventory::default());
+            parent.spawn(Inventory);
         });
 }
 
