@@ -63,7 +63,7 @@ fn pick_up_close(
             .translation
             .abs_diff_eq(item_pos.translation, PICKUP_RANGE)
         {
-            if has_equip == false {
+            if !has_equip {
                 commands.entity(item).insert(EquippedBy(player));
                 has_equip = true;
             } else {

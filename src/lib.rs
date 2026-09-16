@@ -3,11 +3,13 @@ use bevy::prelude::*;
 mod camera;
 mod inventory;
 mod item;
+mod player;
 mod view;
 
 pub use camera::*;
 pub use inventory::*;
 pub use item::*;
+pub use player::*;
 pub use view::*;
 
 pub fn run() {
@@ -18,6 +20,7 @@ pub fn run() {
             ViewPlugin,
             ItemPlugin,
             InventoryPlugin,
+            PlayerPlugin,
         ))
         .add_systems(Startup, (setup, spawn_guns))
         .run();
