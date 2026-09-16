@@ -21,7 +21,13 @@ public:
 };
 ```
 
-Only items that have `Rustable` in the definition are part of the oxidation system.
+`UInventoryFragment_Rustable` can now be a part of the ItemDefinition system that tells the game how an item's `Instance` should be constructed. During gameplay we also want to add a `Rusty` tag to an item instance, but only after it has spent 5 seconds on the ground. Where does `Rusty` fit?
+
+## `Rusty` fits into the square hole!
+
+That's right. Much like every other tag, `Rusty` and it's required counterpart `GroundedSecs` fit into the `StatTags` array that an item `Instance` contains. The reason why `StatTags` can be seen as a square hole that fits any shape is that fundamental parts of the gunplay like `MagazineAmmo` and `RemainingMagazines` also sit in `StatTags` alongside our newly added components. In fact every dynamic property of an item `Instance` is a part of String-to-Int nature of `StatTags`. This allows the system to support arbitrary functionalities of any item at the cost of type safety and code verbosity.
+
+# TODO: next talk about implementation of cooldown impact and visual tinting of Rusted items
 
 --- Human written above ---
 
