@@ -9,7 +9,9 @@ license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
 # The branch is mutually-exclusive-components, pinned at Bevy between 0.19.1 and 0.20.0
-bevy = { git = "https://github.com/eugineerd/bevy.git", rev = "b8d0da3", features = ["dynamic_linking", "debug"] }
+# bevy = { git = "https://github.com/eugineerd/bevy.git", rev = "b8d0da3", features = ["dynamic_linking", "debug"] }
+bevy = { version = "0.19", features = ["dynamic_linking", "debug"] }
+bevy_enhanced_input = { version = "0.26" }
 smallvec = "1.16.1"
 
 [dependencies]
