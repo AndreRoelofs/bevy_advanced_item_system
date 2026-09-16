@@ -20,7 +20,8 @@ pub struct CameraPlugin;
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(CursorLocked::default())
-            .add_systems(Update, (look_around, move_player, toggle_cursor));
+            .add_systems(Update, (look_around, move_player))
+            .add_systems(Update, toggle_cursor.in_set(CursorSystems));
     }
 }
 
