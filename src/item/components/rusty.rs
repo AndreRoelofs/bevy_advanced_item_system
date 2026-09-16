@@ -1,4 +1,4 @@
-use bevy::{ecs::component::ComponentIdFor, prelude::*, scene::Ready};
+use bevy::{ecs::component::ComponentIdFor, prelude::*};
 
 use crate::{Cooldown, EquippedBy, GroundedSecs, Item, OnGround, StatOp, StoredIn, View, ViewOf};
 
@@ -35,7 +35,7 @@ fn setup_rust_material(mut commands: Commands, mut materials: ResMut<Assets<Stan
 // We need to color the gun brown both when the state is changed for items and
 // when those items receive `Rusty` regardless of their state
 fn rust_on_ground(
-    add: On<Add<(OnGround, Rusty)>>,
+    add: On<Add, (OnGround, Rusty)>,
     items: Query<&View, (With<Item>, With<OnGround>, With<Rusty>)>,
     mut meshes: Query<&mut MeshMaterial3d<StandardMaterial>>,
     material: Res<RustMaterial>,
@@ -49,7 +49,7 @@ fn rust_on_ground(
 }
 
 fn rust_on_equipped(
-    add: On<Add<(EquippedBy, Rusty)>>,
+    add: On<Add, (EquippedBy, Rusty)>,
     items: Query<&View, (With<Item>, With<EquippedBy>, With<Rusty>)>,
     mut meshes: Query<&mut MeshMaterial3d<StandardMaterial>>,
     material: Res<RustMaterial>,
@@ -63,7 +63,7 @@ fn rust_on_equipped(
 }
 
 fn rust_on_stored(
-    add: On<Add<(StoredIn, Rusty)>>,
+    add: On<Add, (StoredIn, Rusty)>,
     items: Query<&View, (With<Item>, With<StoredIn>, With<Rusty>)>,
     mut backgrounds: Query<&mut BackgroundColor>,
 ) {
@@ -76,7 +76,7 @@ fn rust_on_stored(
 }
 
 fn attach_rust_modifier(
-    add: On<Add<Rusty>>,
+    add: On<Add, Rusty>,
     mut items: Query<&mut Cooldown, With<Item>>,
     rusty_id: ComponentIdFor<Rusty>,
 ) {
@@ -88,7 +88,7 @@ fn attach_rust_modifier(
 }
 
 fn detach_rust_modifier(
-    remove: On<Remove<Rusty>>,
+    remove: On<Remove, Rusty>,
     mut items: Query<&mut Cooldown, With<Item>>,
     rusty_id: ComponentIdFor<Rusty>,
 ) {

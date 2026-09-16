@@ -19,8 +19,9 @@ impl Plugin for ItemPlugin {
             .register_type::<StoredIn>()
             .register_type::<Stores>();
 
-        app.world_mut()
-            .register_mutually_exclusive_components::<(OnGround, EquippedBy, StoredIn)>();
+        // I wish this worked on Bevy main :(
+        // app.world_mut()
+        //     .register_mutually_exclusive_components::<(OnGround, EquippedBy, StoredIn)>();
 
         app.add_plugins((
             ItemComponentsPlugin,
@@ -93,5 +94,29 @@ pub struct ItemFootprint(pub UVec2);
 impl Default for ItemFootprint {
     fn default() -> Self {
         Self(UVec2::ONE)
+    }
+}
+
+// "We have mutually exclusive components at home"
+/// Ensures exclusivity in item states.
+trait ItemCommandsExt {
+    fn store_in(&mut self, entity: Entity) -> &mut Self;
+    fn equip_for(&mut self, entity: Entity) -> &mut Self;
+    fn drop(&mut self) -> &mut Self;
+}
+
+impl ItemCommandsExt for EntityCommands<'_> {
+    fn store_in(&mut self, entity: Entity) -> &mut Self {
+        self.remove::<(OnGround, EquippedBy)>()
+            .insert(StoredIn(entity))
+    }
+
+    fn equip_for(&mut self, entity: Entity) -> &mut Self {
+        self.remove::<(OnGround, StoredIn)>()
+            .insert(EquippedBy(entity))
+    }
+
+    fn drop(&mut self) -> &mut Self {
+        self.remove::<(EquippedBy, StoredIn)>().insert(OnGround)
     }
 }

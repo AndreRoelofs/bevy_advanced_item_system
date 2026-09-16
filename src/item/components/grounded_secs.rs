@@ -16,7 +16,7 @@ impl Plugin for GroundedSecsPlugin {
 pub struct GroundedSecs(pub f32);
 
 /// Adds `GroundedSecs` timer the moment an item is on the ground for the first time
-fn track_grounded_items(add: On<Add<OnGround>>, mut commands: Commands) {
+fn track_grounded_items(add: On<Add, OnGround>, mut commands: Commands) {
     commands
         .entity(add.entity)
         .insert_if_new(GroundedSecs::default());

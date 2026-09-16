@@ -37,7 +37,7 @@ pub fn build_chrome_patch(asset_server: &AssetServer, scene: impl Scene) -> Hand
 }
 
 fn change_view_on_ground(
-    add: On<Add<OnGround>>,
+    add: On<Add, OnGround>,
     mut commands: Commands,
     views: Res<ItemViewRegistry>,
     items: Query<&Item>,
@@ -68,7 +68,7 @@ fn change_view_on_ground(
 }
 
 fn change_view_on_equipped(
-    add: On<Add<EquippedBy>>,
+    add: On<Add, EquippedBy>,
     mut commands: Commands,
     views: Res<ItemViewRegistry>,
     items: Query<(&Item, &EquippedBy)>,
@@ -97,7 +97,7 @@ fn change_view_on_equipped(
 }
 
 fn change_view_on_stored(
-    add: On<Add<StoredIn>>,
+    add: On<Add, StoredIn>,
     mut commands: Commands,
     views: Res<ItemViewRegistry>,
     items: Query<&Item>,

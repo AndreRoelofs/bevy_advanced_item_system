@@ -64,7 +64,7 @@ pub fn try_fire(
 }
 
 fn arm_on_equip(
-    insert: On<Insert<EquippedBy>>,
+    insert: On<Insert, EquippedBy>,
     guns: Query<Has<FireControl>, With<Shootable>>,
     mut commands: Commands,
 ) {
@@ -81,7 +81,7 @@ fn arm_on_equip(
 }
 
 fn disarm_on_unequip(
-    remove: On<Remove<EquippedBy>>,
+    remove: On<Remove, EquippedBy>,
     guns: Query<(), With<Shootable>>,
     mut commands: Commands,
 ) {
