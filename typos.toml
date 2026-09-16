@@ -1,5 +1,5 @@
 [files]
-extend-exclude = ["target/", "*.md", "docs/"]
+extend-exclude = ["target/", "*.md", "website/"]
 
 [default]
 locale = "en-us"
