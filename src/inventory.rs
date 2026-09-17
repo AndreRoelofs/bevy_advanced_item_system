@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{Equips, Item, OnGround, Player, Shootable, Stores, item::ItemCommandsExt};
+use crate::{EquippedBy, Equips, Item, OnGround, Player, StoredIn, item::ItemCommandsExt};
 
 const PICKUP_RANGE: f32 = 2.0;
 
@@ -11,6 +11,7 @@ impl Plugin for InventoryPlugin {
         app.register_type::<Inventory>()
             .register_type::<InventoryOf>()
             .register_type::<OwnsInventory>()
+            .add_observer(store_unequipped)
             .add_systems(Update, pick_up_close);
     }
 }
@@ -71,4 +72,14 @@ fn pick_up_close(
             }
         }
     }
+}
+
+fn store_unequipped(
+    remove: On<Remove, EquippedBy>,
+    inventory: Single<Entity, With<Inventory>>,
+    mut commands: Commands,
+) {
+    commands
+        .entity(remove.entity)
+        .try_insert(StoredIn(*inventory));
 }
