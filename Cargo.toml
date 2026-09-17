@@ -16,6 +16,7 @@ smallvec = "1.16.1"
 
 [dependencies]
 bevy = { workspace = true }
+bevy_enhanced_input = { workspace = true }
 smallvec = { workspace = true }
 
 # Enable a small amount of optimization in the dev profile.
