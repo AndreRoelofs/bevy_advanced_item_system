@@ -16,6 +16,7 @@ impl Plugin for ItemPlugin {
     fn build(&self, app: &mut App) {
         app.register_type::<OnGround>()
             .register_type::<EquippedBy>()
+            .register_type::<Equips>()
             .register_type::<StoredIn>()
             .register_type::<Stores>();
 
@@ -48,10 +49,10 @@ pub struct OnGround;
 #[relationship(relationship_target = Equips)]
 pub struct EquippedBy(pub Entity);
 
-#[derive(Component, Reflect, Default)]
+#[derive(Component, Reflect)]
 #[reflect(Component)]
 #[relationship_target(relationship = EquippedBy)]
-pub struct Equips(Vec<Entity>);
+pub struct Equips(Entity);
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -69,9 +70,15 @@ impl Stores {
     }
 }
 
+impl Default for Equips {
+    fn default() -> Self {
+        Self(Entity::PLACEHOLDER)
+    }
+}
+
 impl Equips {
-    pub fn items(&self) -> &Vec<Entity> {
-        &self.0
+    pub fn entity(&self) -> Option<Entity> {
+        (self.0 != Entity::PLACEHOLDER).then_some(self.0)
     }
 }
 
@@ -99,7 +106,7 @@ impl Default for ItemFootprint {
 
 // "We have mutually exclusive components at home"
 /// Ensures exclusivity in item states.
-trait ItemCommandsExt {
+pub trait ItemCommandsExt {
     fn store_in(&mut self, entity: Entity) -> &mut Self;
     fn equip_for(&mut self, entity: Entity) -> &mut Self;
     fn drop(&mut self) -> &mut Self;
