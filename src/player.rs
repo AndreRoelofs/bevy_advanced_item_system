@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+pub(crate) mod input;
+
 pub const MOVE_SPEED: f32 = 5.0;
 pub const PLATFORM_TOP_Y: f32 = 0.0;
 pub const EYE_HEIGHT: f32 = 1.7;
@@ -11,7 +13,9 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.register_type::<Player>().register_system(move_player);
+        app.add_plugins(input::PlayerInputPlugin)
+            .register_type::<Player>()
+            .register_system(move_player);
     }
 }
 

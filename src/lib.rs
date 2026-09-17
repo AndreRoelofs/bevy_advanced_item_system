@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_enhanced_input::prelude::EnhancedInputPlugin;
 
 mod camera;
 mod inventory;
@@ -16,6 +17,7 @@ pub fn run() {
     App::new()
         .add_plugins((
             DefaultPlugins,
+            EnhancedInputPlugin,
             CameraPlugin,
             ViewPlugin,
             ItemPlugin,
@@ -54,6 +56,7 @@ fn setup(
             Camera3d::default(),
             Transform::from_xyz(0.0, PLATFORM_TOP_Y + EYE_HEIGHT, 0.0),
             Player::default(),
+            player::input::gameplay_input(),
             AmbientLight {
                 brightness: 200.0,
                 ..default()
