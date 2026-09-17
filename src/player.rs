@@ -35,18 +35,23 @@ pub fn move_player(
     let forward = transform.forward().with_y(0.0).normalize_or_zero();
     let right = transform.right().with_y(0.0).normalize_or_zero();
     let mut dir = Vec3::ZERO;
+
     if keys.pressed(KeyCode::KeyW) {
         dir += forward;
     }
+
     if keys.pressed(KeyCode::KeyS) {
         dir -= forward;
     }
+
     if keys.pressed(KeyCode::KeyD) {
         dir += right;
     }
+
     if keys.pressed(KeyCode::KeyA) {
         dir -= right;
     }
+
     transform.translation += dir.normalize_or_zero() * MOVE_SPEED * time.delta_secs();
 
     let stand_y = PLATFORM_TOP_Y + EYE_HEIGHT;

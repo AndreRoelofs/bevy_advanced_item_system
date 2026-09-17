@@ -50,7 +50,7 @@ fn pick_up_close(
         return;
     };
 
-    let Some(inventory) = inventories.iter_many(children).find_map(Result::ok) else {
+    let Some(inventory) = inventories.iter_many(children).next() else {
         return;
     };
 

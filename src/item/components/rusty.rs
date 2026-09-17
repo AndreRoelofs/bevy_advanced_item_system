@@ -112,8 +112,10 @@ fn rust_grounded_items(
     }
 }
 
+// ScenePatchInstance applies visuals after ViewOf is added. Observe their insertion
+// so newly spawned views and replacement visuals inherit the item's rust color.
 fn rust_view(
-    ready: On<Ready>,
+    inserted: On<Insert, (MeshMaterial3d<StandardMaterial>, BackgroundColor)>,
     items: Query<(), (With<Item>, With<Rusty>)>,
     mut views: Query<(
         &ViewOf,
@@ -122,7 +124,7 @@ fn rust_view(
     )>,
     material: Res<RustMaterial>,
 ) {
-    let Ok((view_of, mesh_material, background)) = views.get_mut(ready.entity) else {
+    let Ok((view_of, mesh_material, background)) = views.get_mut(inserted.entity) else {
         return;
     };
 
