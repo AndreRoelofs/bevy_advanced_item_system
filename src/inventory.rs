@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{EquippedBy, Equips, Item, OnGround, Player, StoredIn};
+use crate::{Equips, Item, OnGround, Player, Shootable, Stores, item::ItemCommandsExt};
 
 const PICKUP_RANGE: f32 = 2.0;
 
@@ -56,7 +56,7 @@ fn pick_up_close(
 
     // If the player has nothing equipped then we
     // give them the first gun they walk over.
-    let mut has_equip = equips.is_some();
+    let mut has_equip = equips.and_then(Equips::entity).is_some();
 
     for (item, item_pos) in items {
         if pos
@@ -64,10 +64,10 @@ fn pick_up_close(
             .abs_diff_eq(item_pos.translation, PICKUP_RANGE)
         {
             if !has_equip {
-                commands.entity(item).insert(EquippedBy(player));
+                commands.entity(item).equip_for(player);
                 has_equip = true;
             } else {
-                commands.entity(item).insert(StoredIn(inventory));
+                commands.entity(item).store_in(inventory);
             }
         }
     }
