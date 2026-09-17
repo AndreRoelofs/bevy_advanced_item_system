@@ -15,7 +15,7 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(input::PlayerInputPlugin)
             .register_type::<Player>()
-            .register_system(move_player);
+            .add_systems(Update, move_player);
     }
 }
 
