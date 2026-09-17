@@ -49,7 +49,7 @@ An item left too long on the ground should shoot slower and look worse.
 
 # TODO: next talk about implementation of cooldown impact and visual tinting of Rusted items
 
---- Human written above ---
+# --- Human written above ---
 
 Put rust configuration in a custom definition fragment: threshold, cooldown
 multiplier, and visual settings. Keep changing values in a custom per-item record
