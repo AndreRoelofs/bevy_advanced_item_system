@@ -25,7 +25,27 @@ public:
 
 ## `Rusty` fits into the square hole!
 
-That's right. Much like every other tag, `Rusty` and it's required counterpart `GroundedSecs` fit into the `StatTags` array that an item `Instance` contains. The reason why `StatTags` can be seen as a square hole that fits any shape is that fundamental parts of the gunplay like `MagazineAmmo` and `RemainingMagazines` also sit in `StatTags` alongside our newly added components. In fact every dynamic property of an item `Instance` is a part of String-to-Int nature of `StatTags`. This allows the system to support arbitrary functionalities of any item at the cost of type safety and code verbosity.
+That's right. Much like every other tag, `Rusty` and it's required counterpart `GroundedSecs` fit into the `StatTags` array that an `ItemInstance` contains. The reason why `StatTags` can be seen as a square hole that fits any shape is that fundamental parts of the gunplay like `MagazineAmmo` and `RemainingMagazines` also sit in `StatTags` alongside our newly added components. In fact every dynamic property of an `ItemInstance` is a part of String-to-Int nature of `StatTags`. This allows the system to support arbitrary functionalities of any item at the cost of type safety and code verbosity.
+
+`Rusty` will be defined as:
+
+```cpp
+UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_Rusty, "Item.Condition.Rusty");
+```
+
+As `StatTags` is the equivalent of `HashMap<String, int32>`, we will express a gun having rust as `HashMap<"Item.Condition.Rusty", 1>`. 
+
+`GroundedSecs` in turn is just:
+
+```cpp
+UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_GroundedSecs, "Item.Stat.GroundedSecs");
+```
+
+The `int32` part of the `GroundedSecs` tag counts seconds that the gun has spent lying on the ground. Once that counter reaches 5 or more - we switch the value of `ItemCondition.Rusty` to `1`.
+
+## `Rusty` should affect gameplay
+
+An item left too long on the ground should shoot slower and look worse. 
 
 # TODO: next talk about implementation of cooldown impact and visual tinting of Rusted items
 
