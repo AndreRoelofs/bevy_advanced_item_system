@@ -43,9 +43,80 @@ UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_GroundedSecs, "Item.Stat.GroundedSecs");
 
 The `int32` part of the `GroundedSecs` tag counts seconds that the gun has spent lying on the ground. Once that counter reaches 5 or more - we switch the value of `ItemCondition.Rusty` to `1`.
 
-## `Rusty` should affect gameplay TODO: Is this the best implementation?
+## `Rusty` should affect gameplay
 
-An item left too long on the ground should shoot slower and look worse. In technical terms, this means that multiple independent systems should be able to consume and react to `Rusty`. Preferably in a way that is generalizable and allows for other stat modifiers to be added later and work alongside all the old ones. 
+An item left too long on the ground should shoot slower and look worse. In technical terms, this means that multiple independent systems should be able to consume and react to `Rusty`. Preferably in a way that is generalizable and allows for other stat modifiers to be added later and work alongside all the old ones. For now let's consider only the gameplay aspect.
+
+First let's create a `GetEffectiveFireDelay` function that would calculate the the effects various tags can have on the final cooldown:
+
+```cpp
+double ULyraGameplayAbility_RangedWeapon::GetEffectiveFireDelay(
+    double BaseDelaySeconds) const
+{
+    double FlatAdjustment = 0.0;
+    double Multiplier = 1.0;
+
+    if (const ULyraInventoryItemInstance* Item = GetAssociatedItem())
+    {
+        if (Item->HasStatTag(LyraGameplayTags::Item_Condition_Rusty))
+        {
+            if (const auto* Rust =
+                Item->FindFragmentByClass<UInventoryFragment_Rustable>())
+            {
+                Multiplier *= FMath::Max(1.0f, Rust->CooldownMultiplier);
+            }
+        }
+    }
+
+    return (BaseDelaySeconds + FlatAdjustment) * Multiplier;
+```
+
+Various effects in our game can have both a `Flat` and a `Mult` consequence for the final timer until we can fire our next shot. The eagle-eyed ones might already see a potential issue; what if the game grows? What if there are 10 different conditions that affect an item's performance? Something along the lines of:
+
+```cpp
+double ULyraGameplayAbility_RangedWeapon::GetEffectiveFireDelay(
+    double BaseDelaySeconds) const
+{
+    double FlatAdjustment = 0.0;
+    double Multiplier = 1.0;
+
+    if (const ULyraInventoryItemInstance* Item = GetAssociatedItem())
+    {
+        if (Item->HasStatTag(LyraGameplayTags::Item_Condition_Rusty))
+        {
+            if (const auto* Rust =
+                Item->FindFragmentByClass<UInventoryFragment_Rustable>())
+            {
+                Multiplier *= Rust->CooldownMultiplier;
+            }
+        }
+
+        if (Item->HasStatTag(LyraGameplayTags::Item_Condition_QualityRare))
+        {
+            if (const auto* Quality =
+                Item->FindFragmentByClass<UInventoryFragment_QualityRare>())
+            {
+                Multiplier *= Quality->CooldownMultiplier;
+            }
+        }
+
+        if (Item->HasStatTag(LyraGameplayTags::Item_Condition_TunedAction))
+        {
+            if (const auto* TunedAction =
+                Item->FindFragmentByClass<UInventoryFragment_TunedAction>())
+            {
+                FlatAdjustment += TunedAction->CooldownAdjustmentSeconds;
+            }
+        }
+        
+        // ... + 7 more
+    }
+
+    return (BaseDelaySeconds + FlatAdjustment) * Multiplier;
+}
+```
+
+We have now created an unwieldy beast of a function. Not to mention that our code is now littered with countless template definitions for various `UInventoryFragment` classes that we decided to create for our game.
 
 # TODO: next talk about implementation of cooldown impact and visual tinting of Rusted items
 
