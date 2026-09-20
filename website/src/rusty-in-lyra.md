@@ -43,9 +43,9 @@ UE_DEFINE_GAMEPLAY_TAG_STATIC(TAG_GroundedSecs, "Item.Stat.GroundedSecs");
 
 The `int32` part of the `GroundedSecs` tag counts seconds that the gun has spent lying on the ground. Once that counter reaches 5 or more - we switch the value of `ItemCondition.Rusty` to `1`.
 
-## `Rusty` should affect gameplay
+## `Rusty` should affect gameplay TODO: Is this the best implementation?
 
-An item left too long on the ground should shoot slower and look worse. 
+An item left too long on the ground should shoot slower and look worse. In technical terms, this means that multiple independent systems should be able to consume and react to `Rusty`. Preferably in a way that is generalizable and allows for other stat modifiers to be added later and work alongside all the old ones. 
 
 # TODO: next talk about implementation of cooldown impact and visual tinting of Rusted items
 
